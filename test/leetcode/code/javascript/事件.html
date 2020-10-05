@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事件监听</title>
+</head>
+<body>
+    <div id="list">
+        通用的事件绑定
+    </div>
+    <div id="container">
+        <div class="box1">
+            <P class="btn">激活</P>
+            <P class="btn">删除</P>
+            <P class="btn">删除</P>
+        </div>
+        <div class="box2">
+            <a href="#" class="btn1">代理1</a>
+            <a href="#" class="btn1">代理2</a>
+        </div>    
+    </div>
+    <script>
+        addEventListener
+        // 实现通用的事件监听函数
+        function bindEvent(element, type, fn) {
+            element.addEventListener(type, fn)
+        }
+
+        // 优化通用事件监听函数
+        // TODO：
+
+        let list = document.getElementById('list')
+        bindEvent(list, 'click', (event) => {
+            console.log(event.target);
+        })
+        
+        // 事件冒泡
+        // 冒泡是从目标元素 一直往上冒泡，直到 window，从下往上
+        let box1 = document.getElementsByClassName('box1')[0];
+        let btn1 = document.getElementsByClassName('btn')[0];
+        bindEvent(btn1, 'click', (event) => {
+            event.stopPropagation();
+            console.log('激活')
+        });
+        
+        bindEvent(box1, 'click', (event) => {
+            console.log('box1');
+        })
+
+        // 事件代理 在父元素代理所有子元素的事件  
+        let box2 = document.getElementsByClassName('box2')[0];
+        bindEvent(box2, 'click', (event) => {
+            // 阻止a上面的默认行为
+            event.preventDefault();
+            if(event.target.nodeName == 'A'){
+                console.log(event.target.innerHTML);
+            }
+            
+        })
+
+
+    </script>
+</body>
+</html>

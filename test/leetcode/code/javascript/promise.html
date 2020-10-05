@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>promise</title>
+</head>
+<body>
+    <script>
+        // 实现promise.all
+        /**
+        * 输入一个promise数组
+        * 输出一个promise对象
+        * resolve状态：输入的promise全部正确返回，才返回一个resolve状态的promise对象，
+                    并且resolve状态的结果和输入的顺序保持一致。
+        * reject状态：只有有一个promise错误，则返回错误结果（多个错误也只返回第一个错误结果）
+        */
+        function promiseAll(promiseArray) {
+            if(!Array.isArray(promiseArray)){
+                return '参数必须为数组'
+            }
+            // 返回promise对象
+            return new Promise(function (resolve, reject) {
+                // 保存promise成功状态的结果
+                let resolveValues = [];
+                // 成功状态的个数
+                let resolveCount = 0;
+                // 循环执行传入的数组中的每个promise
+                for (let i = 0; i < promiseArray.length; i++) {
+                    Promise.resolve(promiseArray[i]).then((res)=>{
+                        console.log('res:',res);
+                        // 和promise.race的主要差别 all要全部执行成功
+                        // 执行成功，状态个数+1
+                        resolveCount++;
+                        // 返回值 保存在数组中
+                        resolveValues[i] = res;
+                        // 只有当成功的个数 和 传入的promise数组长度一致，才返回成功，并传入结果
+                        if(resolveCount === promiseArray.length){
+                            resolve(resolveValues);
+                        }
+                    }, (err)=>{
+                        reject(err)
+                    });
+                }
+            });
+        }
+
+        // 定义一个promise测试函数
+        function test(text, time) {
+            return new Promise((resolve, reject)=>{
+                setTimeout(() => {
+                    resolve(text)
+                }, time);
+            })
+        }
+
+        // 3个一步执行函数
+        let p1 = test('p1', 1000);
+        let p2 = test('p2', 2000);
+        let p3 = test('p3', 3000);
+        // 调用promiseAll函数 
+        promiseAll([p1, p3, p2]).then((res)=>{
+            console.log(res);
+        }, (err)=>{
+            console.log(err);
+        })
+
+
+        //实现promise.race
+        /**
+        * 输入的是一个promise数组
+        * 输出的是一个promise对象，输出的是第一个返回的promise对象，无论是成功状态还是失败状态
+        */
+        function promiseRace(promiseArray) {
+            if(!Array.isArray(promiseArray)){
+                return '参数必须为数组'
+            }
+            return new Promise((resolve, reject)=>{
+                // 循环执行，返回第一个promise执行的结果
+                for (let i = 0; i < promiseArray.length; i++) {
+                    Promise.resolve(promiseArray[i]).then((res)=>{
+                        resolve(res)
+                    }, (err)=>{
+                        reject(err)
+                    });
+                }
+            })
+        }
+        
+        promiseRace([p3,p2,p1]).then((res)=>{
+            console.log(res); 
+        }, (err)=>{
+            console.log(err);
+        })
+
+
+
+        // promise加载图片
+        function loadImg(src) {
+            return new Promise((resolve, reject) => {
+                const img = document.createElement('img')
+                img.onload = () => {
+                    resolve(img)
+                }
+                img.onerror = () => {
+                    let err = new Error(`图片加载失败 ${src}`)
+                    reject(err)
+                }
+                img.src = src
+            })
+        }
+
+        const src1 = 'http://img4.sycdn.imooc.com/5a9fc8070001a82402060220-160-160.jpg';
+        const src2 = 'http://img1.sycdn.imooc.com/5a0c5df20001a1cb05800580-160-160.jpg';
+        // 加载图片，第一个图片加载完后，加载第二个图片
+        loadImg(src1).then((img) => {
+            console.log(img.src);
+            return img;  // 返回一个对象
+        }).then((img) => {
+            console.log(img.height);
+            return loadImg(src2); // 返回一个promise实例
+        }).then(img => {
+            console.log(img.src);
+        })
+
+
+    </script>
+</body>
+</html>

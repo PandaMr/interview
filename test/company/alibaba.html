@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>阿里巴巴笔试算法题</title>
+</head>
+<body>
+    <script>
+        /**
+         * 1. 算法：第K大的数 Array.sort(arr) 排序后取出第K个数    
+         * 2. 字符串中重复最多的字符
+         * 3. flex布局 三列布局，中间自适应
+         */ 
+
+         // 1. 第K大的数
+        function sort(arr, k) {
+            arr.sort((a, b) => b - a);
+            return arr[k-1]
+        }
+        console.log(sort([3,6,9,2,8], 2));
+
+        // 方法二 使用冒泡排序方法 ， 不能使用sort()函数的情况下 
+        let sort_2 = (arr, k) => {
+            let len = arr.length;
+            for(let i=0; i<k; i++){
+                for(let j=i+1; j<len; j++){
+                    if(arr[i] < arr[j]){
+                        let tmp = arr[i];
+                        arr[i] = arr[j];
+                        arr[j] = tmp;
+                    }
+                }
+            }
+            console.log(arr);
+            return arr[k-1];
+        }
+        console.log(sort_2([3,6,9,2,8], 2));
+
+        // 2. 字符串中重复最多的字符
+        function chars(string) {
+            // 使用对象进行存储字符的个数
+            let obj = {};
+            for(let i=0; i<string.length; i++){
+                if( obj[string.charAt(i)] ) {
+                    obj[string.charAt(i)] ++
+                }else{
+                    obj[string.charAt(i)] = 1
+                }
+            }
+            // 遍历对象 
+            let max = 0;
+            let name = '';
+            for(let i in obj){
+                if(max < obj[i]){
+                    max = obj[i];
+                    name = i;
+                }
+            }
+            console.log(`字符重复最多的为 ${name} , 重复次数为 ${max}`);
+        }
+        chars('panda');
+    </script>
+</body>
+</html>

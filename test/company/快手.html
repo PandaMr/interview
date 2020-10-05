@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>前辈快手秋招面试</title>
+</head>
+<body>
+    <script>
+        // 2. typeof[1,2,3]输出什么？ 那js如何判断数组
+        // typeof只能判断值类型，不能判断具体的引用类型，都为object
+        console.log(typeof [1,2,3]); // object
+        
+        //js如何判断数组
+        // 方法1 instanceof 判断某个实例 是否属于 某个对象，
+        console.log([1,2,3] instanceof Array); // true
+        // 方法2 constructor 判断是否为某个构造函数的实例
+        console.log([1,2,3].constructor === Array); // true
+        // 方法3 obj.prototype.toString.call(arr)
+        console.log(Object.prototype.toString.call([1,2,3]));
+        // 方法4 Array.isArray(arr) es5中的方法 //true
+        console.log(Array.isArray([1,2,3]));
+        // 方法5 Array.prototype.isPrototypeOf  数组原型链上的方法，用于判断当前对象是否存在数组原型链上
+        console.log(Array.prototype.isPrototypeOf([1,3]));  //true
+        //方法6 Object.getPrototypeOf 返回指定对象的原型
+        console.log(Object.getPrototypeOf([1,2,3]) === Array.prototype); 
+
+    </script>
+</body>
+</html> 

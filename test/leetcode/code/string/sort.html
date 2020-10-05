@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>排序算法</title>
+  </head>
+  <body>
+    <script>
+      /**冒泡排序
+       * 每次找出最大值或者最小值
+       * 依次和每个元素进行对比，如果位置错误就交换位置
+       *
+       */
+
+      let sort = (arr) => {
+        for (let i = 0; i < arr.length; i++) {
+          for (let j = i + 1; j < arr.length; j++) {
+            if (arr[j] < arr[i]) {
+              let tmp = arr[i];
+              arr[i] = arr[j];
+              arr[j] = tmp;
+            }
+          }
+        }
+        return arr;
+      };
+      console.log(sort([1, 6, 2, 8, 0, 7]));
+
+      // 选择排序
+      // 每次找出最小值，依次放入数组
+      let select = (arr) => {
+        for (let i = 0, min; i < arr.length; i++) {
+          min = arr[i];
+          for (let j = i + 1; j < arr.length; j++) {
+            if (arr[j] < min) {
+              let tmp = min;
+              min = arr[j];
+              arr[j] = tmp;
+            }
+          }
+          arr[i] = min;
+        }
+        return arr;
+      };
+      console.log(select([1, 6, 3, 9, 2]));
+
+      /** 164 最大间距
+       * 1. 排序后 找出间距最大的差值
+       * 2. 排序后数组为有序数组，然后用arr[i+1] - arr[i]
+       *
+       */
+      let maxValue = (arr) => {
+        if (arr.length < 2) {
+          return 0;
+        }
+        let max = 0;
+        arr.sort((a, b) => a - b);
+        for (let i = 0; i < arr.length - 1; i++) {
+          let tem = arr[i + 1] - arr[i];
+          if (max < tem) {
+            max = tem;
+          }
+        }
+        return max;
+      };
+      console.log(maxValue([10]));
+      console.log(maxValue([3, 6, 9, 1]));
+      console.log(maxValue([3, 6, 9, 1, 22]));
+
+      /**
+       * 922 按奇偶排序数组
+       * 思路：    （适合奇数偶数 个数不想等的情况下）
+       * 1. 把数组中的奇偶分别用数组存起来
+       * 2. 循环数组，i是偶数就从偶数数组中，否则从奇数数组中拿
+       */ 
+      let oddEven = (arr) => {
+          let oddArr = [];
+          let evenArr = [];
+          for(let i=0; i<arr.length; i++){
+              if(arr[i] % 2 === 1){
+                oddArr.push(arr[i])
+              }else{
+                evenArr.push(arr[i])
+              }
+          }
+
+          for(let j=0; j<arr.length; j++){
+              if(j % 2 === 1){
+                  arr[j] = oddArr.shift()
+              }else{
+                  arr[j] = evenArr.shift()
+              }
+          }
+          return arr
+      }
+      console.log(oddEven([1,2,4,7,8,]));
+      
+    /**
+     * 思路二
+     * 1. 排序数组，也可不排序
+     * 2. 定义两个游标，一个是偶数，一个奇数游标
+     * 3. 判断数组中的值是偶数就放入偶数游标
+     */ 
+      let oddEven_2 = (arr) => {
+          let evenIndex = 0;
+          let oddIndex = 1;
+          let array = [];
+          for(let i=0; i<arr.length; i++){
+              if( arr[i] % 2 === 1 ){
+                array[oddIndex] = arr[i]
+                oddIndex += 2
+              }else{
+                  array[evenIndex] = arr[i]
+                  evenIndex += 2
+              }
+          }
+          return array;
+      }
+      console.log(oddEven_2([1,2,7,8]));
+
+      /**
+       * 215 数组中的第K个最大元素
+       * 数组排序后的第K个最大的元素
+       * 思路：
+       * 1. 先排序数组，使得数组成为有序数组，从大到小排序
+       * 2. 返回数组中下标位 arr[k-1] 的值
+       * 
+       */ 
+      let k = (arr, k) => {
+        // 1. 数组排序方法后返回arr[k-1]
+        //   arr.sort((a, b) => b-a );
+        //   return arr[k-1];
+
+
+        //2. 不使用数组排序方法，使用快速排序
+        for(let i=0; i<k; i++){
+            for(let j=i+1; j<arr.length; j++){
+                if(arr[i] < arr[j]){
+                    let tmp = arr[i]
+                    arr[i] = arr[j]
+                    arr[j] = tmp
+                }
+            }
+        }
+        return arr[k-1];
+      }
+      console.log(k([3,2,1,5,6,4], 2));
+
+      /**
+       * 41 缺失的第一个正数
+       * 思路：
+       * 1. 先过滤 非正整数
+       * 2. 排序数组，从小到达排序
+       * 3. 判断第一个元素是否为 1 不是则返回 1 ，是1就判断相邻元素的差值是否 >1 
+       * 4. arr[i+1] - arr[i] > 1 则返回 arr[1]+1
+       * 5. 如果是连续的数组，则返回数组最后一项 +1  arr.pop()+1
+       *   
+       */ 
+      let absent = (arr) => {
+        //   过滤非正整数
+        arr = arr.filter(item => item > 0 )
+        // 排序
+        arr.sort((a, b) => a-b )
+
+        if(arr[0] !== 1){
+            return 1
+        }
+        for(let i=0; i<arr.length-1; i++){
+            if(arr[i+1] - arr[i] > 1){
+                return arr[i] + 1
+            }
+        }
+        return arr.pop() + 1
+      }
+
+      console.log(absent([1,2,0]));
+      console.log(absent([3,4,-1,1]));
+      console.log(absent([7,8,9,11,12]));
+
+      /**
+       * 682 棒球比赛
+       * 1.整数（一轮的得分）：直接表示您在本轮中获得的积分数。
+       * 2. "+"（一轮的得分）：表示本轮获得的得分是前两轮有效 回合得分的总和。
+       * 3. "D"（一轮的得分）：表示本轮获得的得分是前一轮有效 回合得分的两倍。
+       * 4. "C"（一个操作，这不是一个回合的分数）：表示您获得的最后一个有效 回合的分数是无效的，应该被移除。
+
+       * 思路：
+       * 1. 循环数组中的元素，
+       * 2. 使用switch 判断各个元素添加的响应分数
+       * 3. 利用了栈的先进后出的原则 数组可以实现栈的先进后出
+       * 
+       * 
+       */ 
+      let race = (arr) => {
+        let result = []
+        let pre1 = 0
+        let pre2 = 0
+        arr.forEach(item => {
+            switch (item) {
+                case 'C':
+                    // 前一轮比赛的成绩无效
+                    if(result.length){
+                        result.pop()
+                    }else{
+                        return false
+                    }
+                    break;
+                case 'D':
+                    // 前一轮的两倍
+                    pre1 = result.pop()
+                    result.push(pre1, pre1*2);
+                    break;
+
+                case '+':
+                    // 前两轮之和
+                    pre1 = result.pop();
+                    pre2 = result.pop();
+                    result.push(pre2, pre1, pre2+pre1)
+                    break;
+
+                default:
+                    result.push(item*1)
+                    break;
+            }
+        });
+        // 返回数组 的和 
+        return result.reduce((total, num) => { return total+num })
+      }
+      console.log(race(["5","2","C","D","+"]));
+      console.log(race(["5","-2","4","C","D","9","+","+"]));
+
+
+
+
+
+
+
+    </script>
+  </body>
+</html>

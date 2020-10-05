@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>深拷贝</title>
+</head>
+<body>
+    <script>
+        /**
+         * 步骤：
+         * 判断传入的是否是对象，不是则直接返回传入的参数
+         * 判断是数组还是对象
+         * for in循环对象的属性key，
+         *   判断是否是该对象的属性
+         *     递归调用深拷贝
+         */
+        function deepClone(obj) {
+            // 传入的参数 如果不是引用类型，或是null，直接返回。
+            if(typeof obj !== 'object' || obj == null){
+                return obj;
+            }
+            // 判断传入的是对象还是数组
+            let result
+            if(obj instanceof Array){
+                result = []
+            }else{
+                result = {}
+            }
+            // 循环递归存入结果
+            for(let key in obj){
+                // 判断属性是否属于该对象，而不是原型上的属性
+                if(obj.hasOwnProperty(key)){
+                    // 递归调用
+                    result[key] = deepClone(obj[key]);
+                }
+            }
+            // 返回结果
+            return result
+        }
+        let obj1 = {
+            name: 'panda',
+            say:{
+                hello: 'welcome'
+            },
+            arr:[1,2,3]
+        }
+        
+        let obj2 = obj1;
+        let obj3 = deepClone(obj1);
+        obj1.name = 'pandamr';
+        obj2.arr[0] = 8;
+        obj3.say.hello = 'hi'
+
+        console.log(obj1);
+        console.log(obj2);
+        console.log(obj3);
+    </script>
+</body>
+</html>

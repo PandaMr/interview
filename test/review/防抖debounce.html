@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>防抖debounce</title>
+</head>
+<body>
+    <input id="input" type="text">
+    <script>
+
+        // 防抖 debounce  简单实现
+        let input = document.getElementById('input');
+        // let timer = null;
+        // input.addEventListener('keyup',function () {
+        //     if(timer){
+        //         clearTimeout(timer);
+        //     }
+        //     timer = setTimeout(()=>{
+        //         console.log(input.value);
+        //         timer = null;
+        //     },500)
+            
+        // })
+
+        // 使用闭包封装防抖函数  
+        function debounce(fn, delay) {
+            let timer = null;
+            // 
+            return function () {
+                if(timer){
+                    clearTimeout(timer);
+                }
+                timer = setTimeout(() => {
+                    // fn();
+                    fn.apply(this, arguments);
+                    timer = null;
+                }, delay);
+            }
+        }
+        //绑定事件
+        input.addEventListener('keyup', debounce(function(){
+            console.log(input.value);
+        }, 500))
+
+
+    </script>
+</body>
+</html>

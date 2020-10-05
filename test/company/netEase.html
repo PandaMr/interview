@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>网易算法</title>
+  </head>
+  <body>
+    <script>
+      //   定n个数字，a1 a2 a3...an,你可以对这个数组执行任意次以下交换操作：
+      //   对于数组中的两个下标i,j（1<=i.j<=n）,如果ai+aj为奇数，那么就可以交换这两个数。
+      //    现在允许我们的交换次数不限，求出能够通过若干次操作后得到的数组中字典序最小的一个
+      //   example:
+      //   （A）
+      //       输入 7 3 5 1    输出 7 3 5 1
+      //   （B）
+      //      输入  53941 38641 31525 75864 29026 12199 83522 58200 64784 80987
+      //      输出  12199 29026 31525 38641 53941 58200 64784 75864 80987 83522
+      //   思路：两个数和为奇数只能是一奇一偶。
+      //             如果数组里都是偶数，哪谁也动不了了。
+      //             如果都是奇数，也是谁也动不了。
+      //             如果是有奇数也有偶数的话，比如 5 6 4 3 1，奇数和偶数肯定是可以调换位置的。偶数（奇）之间是不可以之间交换的，但是他们可以用奇数（偶）中转，实现偶数（奇）之间交换。
+
+      // 解答思路：
+      // 1.只要有任意两值和为奇数则可互相交换，则两值必为一奇一偶，再排序
+      // 2.注意输入输出，字符串数组，字符串数字的相互转化
+
+      function soft() {
+        let n = 10;
+        let line = [
+          53941,
+          38641,
+          31525,
+          75864,
+          29026,
+          12199,
+          83522,
+          58200,
+          64784,
+          80987,
+        ];
+
+        let even = 0;
+        let odd = 0;
+        for (i in line) {
+          if (i % 2 == 0) {
+            even += 1;
+          } else {
+            odd += 1;
+          }
+        }
+
+        // let even = line.every((item)=>{
+        //     (item%2) == 0;
+        // });
+        // let odd = line.every((item)=>{
+        //     (item%2) == 1
+        // });
+
+        // console.log(even);
+        // console.log(odd);
+        // 只要又一个不等于0 执行排序
+        if (even != 0 && odd != 0) {
+          line.sort(function (a, b) {
+            return a - b;
+          });
+          //   line.sort((a, b) => a - b);
+        }
+        return line.join(" ");
+      }
+      console.log(soft());
+
+      // 箭头函数的this指向父级this
+      window.name = "panda";
+      var o1 = {
+        name: "pandaMr",
+        getName: () => {
+          console.log(this);
+          console.log(this.name);
+        },
+      };
+      o1.getName();
+
+      // 数组扁平化
+      let arr = [1, [2], [6, [8]]];
+      let arr2 = arr.flat(3); //不知道几维数组用Infinity
+      console.log(arr2);
+
+      // for循环实现扁平化
+      var arr3 = [1, [2], [6, [8]]];
+      function flatArr(arr) {
+        var res = [];
+        for (var i = 0; i < arr.length; i++) {
+          if (Array.isArray(arr[i])) {
+            // if(Object.prototype.toString.call(arr[i]) == '[object Array]'){
+            // 如果是数组 递归该函数
+            // res = res.concat(flatArr(arr[i]));
+            res.push(...flatArr(arr[i])); //es6 扩展运算符
+          } else {
+            res.push(arr[i]);
+          }
+        }
+        return res;
+      }
+      console.log(flatArr(arr3));
+
+
+
+
+
+    </script>
+  </body>
+</html>

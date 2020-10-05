@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>防抖和节流</title>
+    <style>
+      h1 {
+        height: 200px;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <h1>11</h1>
+      <h1>11</h1>
+      <h1>11</h1>
+      <h1>11</h1>
+      <h1>11</h1>
+      <h1>11</h1>
+      <h1>11</h1>
+      <h1>11</h1>
+      <h1>11</h1>
+      <h1>11</h1>
+    </div>
+    <script>
+      // 防抖函数
+      // 实现原理：每次调用的时候设置一个延时器，并清楚之前的计时器
+      function debounce(fn) {
+        // 定时器的记录值
+        let timeout = null;
+        return function () {
+          // 再次调用的时候 清除上一个定时器
+          clearTimeout(timeout);
+          timeout = setTimeout(() => {
+            // 重新计算时间，调用传入的函数
+            fn.apply(this, arguments);
+          }, 500);
+        };
+      }
+      // 处理函数
+      function handle() {
+        console.log(Math.random());
+      }
+      //滚动事件
+      window.addEventListener("scroll", debounce(handle));
+
+      // 节流函数
+      // 实现原理：规定时间内触发只一次函数
+      function throttle(fn) {
+        // 设置一个标记 ，是否执行函数
+        let run = true;
+        return function () {
+          // 开始 先判断是否可以运行
+          if (!run) {
+            return false;
+          }
+          // 把标记设为false
+          run = false;
+          // 将外部传入的函数放入延时器中
+          setTimeout(() => {
+            fn.apply(this, arguments);
+            run = true;
+          }, 500);
+        };
+      }
+
+    
+      // 途虎养车算法题 
+      // 参数： 一个目标数组， 一个整数
+      // 输入 ： tuhu([1,3],3) 
+      // 输出   ["push", "push", "pop", "push"]
+
+      function tuhu(target, n) {
+          let arr = [];
+          for(let i=1; i<=n; i++){
+            if(target.indexOf(i) == -1){
+                arr.push('push')
+                arr.push('pop');
+            }else{
+                arr.push('push');
+            }
+          }
+          return arr;
+      }
+      console.log(tuhu([1,3,5],5));
+
+
+      // 获取元素的子元素
+      let div = document.getElementsByTagName('div')[0];
+      console.log(div.childNodes);
+      console.log(div.children);
+      console.log(div.childElementCount);
+
+    </script>
+  </body>
+</html>

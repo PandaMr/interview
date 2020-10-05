@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>4399</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background-color: gray;
+      }
+      #box {
+        width: 300px;
+        height: 150px;
+        overflow: hidden;
+        background: #ffffff;
+      }
+      #box > li {
+        
+        height: 50px;
+        line-height: 50px;
+      }
+   
+    </style>
+  </head>
+  <body>
+    <div class="container">
+        <ul id="box"></ul>
+        <ul id="copy"></ul>
+    </div>
+    <script>
+      window.onload = roll(60);
+      const NOTICE_LIST = [
+        "恭喜罗X获得特等奖 别墅一套",
+        "恭喜张4获得一等奖 跑车一辆",
+        "恭喜张5获得二等奖 华为手机一部",
+        "恭喜张6获得二等奖 华为手机一部",
+        "恭喜张7获得三等奖 小米手机一部",
+        "恭喜张8获得三等奖 小米手机一部",
+        "恭喜张9获得三等奖 小米手机一部",
+      ];
+      var frag = document.createDocumentFragment();
+      var box = document.getElementById("box");
+
+      for (let i = 0; i < NOTICE_LIST.length; i++) {
+        // 创建元素先插入文档片段中
+        let li = document.createElement("li");
+        li.innerHTML = `${NOTICE_LIST[i]}`;
+        frag.appendChild(li);
+      }
+      // 一次性插入到dom元素中
+      box.appendChild(frag);
+
+      function roll(time) {
+        var box = document.getElementById('box');
+        box.scrollTop = 0;
+        var timer = setInterval(start, time);
+        box.onmouseover = function () {
+          clearInterval(timer);
+        };
+        box.onmouseout = function () {
+          timer = setInterval(start, time);
+        };
+      }
+
+      function start() {
+        var box = document.getElementById('box');
+        if (box.scrollTop >= box.scrollHeight) {
+          box.scrollTop = 0;
+        } else {
+          box.scrollTop++;
+        }
+      }
+    </script>
+  </body>
+</html>

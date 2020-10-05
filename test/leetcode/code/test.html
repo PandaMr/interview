@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {string} digits
+       * @return {string[]}
+       * 思路
+       * 1. 将输入的数字字符串分割成数组 split()
+       * 2. 定义一个数字，存放数字对应的字母
+       * 3. 遍历输入的数字数组，对应数字的字母存到一个数组中，map()
+       *
+       * 4. 递归函数，接收一个数组
+       * 5. 双层循环，每次循环的结果a[0][i] a[1][j] 保存到结果数组中
+       * 6. 循环结束，删除循环的两个元素，替换结果数组中的元素 splice()
+       * 7. 判断数组的长度是否大于1 是则递归，否则返回结果数组
+       */
+      var letterCombinations = function (str) {
+        let num = str.split("");
+        let map = [
+          "",
+          "",
+          "abc",
+          "def",
+          "ghi",
+          "jkl",
+          "mno",
+          "pqrs",
+          "tuv",
+          "wxyz",
+        ];
+        let code = [];
+        num.forEach((item) => {
+          if (map[item]) {
+            code.push(map[item]);
+          }
+        });
+
+        function comp(arr) {
+          let result = [];
+          for (let i = 0; i < arr[0].length; i++) {
+            for (let j = 0; j < arr[1].length; j++) {
+              result.push(arr[0][i] + arr[1][j]);
+            }
+          }
+          // 删除循环过的元素， 将循环出来的结果 替换到数组
+          arr.splice(0, 2, result);
+          if (arr.length > 1) {
+            comp(arr);
+          } else {
+            return result;
+          }
+          return arr[0];
+        }
+        // 递归开始
+        return comp(code);
+      };
+      console.log(letterCombinations("23"));
+
+      /**
+       * @param {number[]} deck
+       * @return {boolean}
+       * 思路：
+       * 1. 排序数组
+       * 2. 双循环把相同的数子保存到数组，
+       * 3. 保存相同数字数组的长度
+       * 4. 遍历数组中的每个分组的长度是否能被最小的长度整除，every() //只要有一项不符合要求则返回false
+       */
+      var hasGroupsSizeX = function (deck) {
+        // 一个数直接返回false
+        if (deck.length <= 1) {
+          return false;
+        }
+        let arr = deck.sort((a, b) => a - b);
+        let min = Number.MAX_SAFE_INTEGER;
+        let result = true;
+        let arrMap = [];
+
+        for (let i = 0, tem = [], len = arr.length; i <= len; i++) {
+          tem.push(arr[i]);
+          for (let j = i + 1; j <= len; j++) {
+            if (arr[i] === arr[j]) {
+              tem.push(arr[j]);
+            } else {
+              if (tem.length <= 1) {
+                result = false;
+                return false;
+              }
+              if (min > tem.length) {
+                min = tem.length;
+              }
+              arrMap.push([].concat(tem));
+
+              tem.length = 0;
+              i = j - 1;
+              break;
+            }
+          }
+        }
+        console.log(arrMap);
+
+        arrMap.map((item) => {
+          if (item.length % min !== 0 && item.length % 2 !== 0) {
+            result = false;
+            return false;
+          }
+        });
+        return result;
+      };
+      console.log(hasGroupsSizeX([1, 2, 3, 3, 2, 1, 1]));
+
+      // 605 种花问题
+      console.log(parseInt(5 / 2));
+      function flower(flowerbed, n) {
+        let arr = [];
+        let count = 1;
+        let result = true;
+        let numbers = 0;
+        for (let i = 0; i < flowerbed.length; i++) {
+          if (flowerbed[i] === 0 && flowerbed[i + 1] === 0) {
+            count++;
+          } else {
+            arr.push(count);
+            count = 1;
+          }
+        }
+        console.log(arr);
+        arr.map((item) => {
+          if (item < 2) {
+            result = false;
+            return false;
+          } else {
+            if (item % 2 === 0) {
+              numbers += (item - 1) / 2;
+            } else {
+              numbers += item / 2;
+            }
+          }
+        });
+        let len = flowerbed.length;
+        if (flowerbed[0] === 0 && flowerbed[1] === 0) {
+          numbers++;
+        }
+        if (flowerbed[len - 1] === 0 && flowerbed[len - 2] === 0) {
+          numbers++;
+        }
+        return (result = numbers / n > 1 ? true : false);
+      }
+      console.log(flower([1, 0, 0, 0, 0, 1, 0, 1], 2));
+
+      //思路二
+      // 1. 边界问题，[0,0,1,0,0,0,1]
+      // 2. 判断前后 元素 后否都等于 0 是则累加
+
+      function flower_two(flowerbed, n) {
+        if (!n) {
+          return true;
+        }
+        if (flowerbed.length === 1) {
+          if (flowerbed[0] === 0) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+        let max = 0;
+        let result = true;
+        for (let i = 0; i < flowerbed.length - 1; i++) {
+          if (flowerbed[i] === 0) {
+            if (i === 0 && flowerbed[1] === 0) {
+              max++;
+              i += 1;
+            } else if (flowerbed[i - 1] === 0 && flowerbed[i + 1] === 0) {
+              max++;
+              i += 1;
+            }
+          }
+        }
+        return (result = max / n >= 1 ? true : false);
+      }
+      console.log(flower_two([0, 0, 1, 0, 0, 0, 1], 2));
+
+      /**89 格雷编码
+       * 思路 递归 回溯算法
+       * 1. 输入的总位数 n 为二进制的位数， 十进制则为 pow(2, n); 2的n次方个数
+       * 2. 如果输入的n=1 则输出 [0,1]
+       * 3. 规律，第一位的格雷编码为0，
+       * 4. 总长度为 2的n次方个，第一列的 0 和 1 平分总长度，剩余列为n-1的二进制编码
+       * 5.
+       * 例：
+       * 0 00  000
+       * 1 01  001
+       *   11  011
+       *   10  010
+       *       110
+       *       111
+       *       101
+       *       100
+       */
+      let make = (n) => {
+        if (n === 0) {
+          return 0;
+        }
+        if (n === 1) {
+          return ["0", "1"];
+        } else {
+          let previous = make(n - 1);
+          let result = [];
+          let max = Math.pow(2, n) - 1;
+          for (let i = 0; i < previous.length; i++) {
+            result[i] = `0${previous[i]}`;
+            result[max - i] = `1${previous[i]}`;
+          }
+          return result;
+        }
+        return make(n);
+      };
+
+      console.log(
+        make(3).map((item) => {
+          return parseInt(item, 2);
+        })
+      );
+
+      /** 459 重复的子字符串   正则表达式
+       *  \w 匹配任意一个字符、数字、下划线 等于 [a-zA-Z0-9_]
+       *  + 至少匹配一次
+       *  ^ 开始位置
+       *  $ 结束位置
+       * \1 等于 括号中匹配的内容  至少一次
+       * （\w）\1+  至少是一次 ，可由多次括号中的表达式构成
+       */
+      function regExp_test(str) {
+        let reg = /^(\w+)\1+$/;
+        return reg.test(str);
+      }
+      console.log(regExp_test("abcabcabc"));
+
+      let reg = (str) => {
+        // return (str + str).slice(1, -1).includes(str);
+        // slice(start, end) 提取字符串的一部分
+        // includes(string) 字符串中是否包括string
+        let string = str + str;
+        return string.slice(1, -1).includes(str);
+      };
+      console.log(reg("abab"));
+
+      // js原声实现 bind 绑定
+      // 1. this指向
+      // 1.参数
+      (function () {
+        Function.prototype.myBind = function (context) {
+          let that = this;
+          return function () {
+            that.apply(context, arguments);
+          };
+        };
+
+        function a() {
+          console.log(this.name);
+        }
+        let b = {
+          name: "panda",
+        };
+
+        // a();
+        a.bind(b)();
+        a.myBind(b)();
+      })();
+
+      let maxRepetition = (s) => {
+        
+      }
+
+
+
+    </script>
+  </body>
+</html>

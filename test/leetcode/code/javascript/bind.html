@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bind</title>
+</head>
+<body>
+    <script>
+        /**
+        * 实现bind函数：返回一个改变了this的新函数，不会立即执行，需函数调用。
+        * 步骤
+        * 1. 在函数的原型对象上设置自己的bind函数
+        * 2. 保存this
+        * 3. 返回改变了this执行的函数，用apply方法
+        */
+        Function.prototype.myBind = function (context) {
+            let that = this;
+            return function (){
+                that.apply(context, arguments);
+            }
+        }
+        // 创建一个函数
+        function a() {
+            console.log(this.name);
+        }
+        
+        let obj = {
+            name:'panda'
+        }
+
+        a.myBind(obj)();
+
+        // 小米笔试第一题
+        function solution(num) {
+            let reg = new RegExp('^[0-9]*$');
+            if(num == '' && typeof(num) != 'number' || !reg.test(num)){
+                return false;
+            }
+            switch (true) {
+                case ((num%7 === 0 && num%9 ===0)):
+                    return 'fizzbuzz';
+                    break;
+                case (num % 7 === 0):
+                    return 'fizz';
+                    break;
+                case (num % 9 === 0):
+                    return 'buzz';
+                    break;
+                default:
+                    return num;
+                    break;
+            }
+        }
+
+        let num = solution(0);
+        console.log(num);
+
+
+
+
+    </script>
+</body>
+</html>

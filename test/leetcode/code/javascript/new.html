@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>new函数</title>
+</head>
+<body>
+    <script>
+        /* 
+        1. new运算符都做了那些事情
+            创建一个新对象
+            将新对象的原型链__proto__绑定到构造函数的原型上
+            绑定this
+            返回对象 
+        */
+        let person = function (name) {
+            this.name = 'panda';
+            this.say = function(){
+                console.log(this.name);
+            }
+        }
+
+        let myNew = function (fn) {
+            let obj = Object.create(fn.prototype);
+            let result = fn.apply(obj);
+            if(typeof result === 'Object'){
+                return result;
+            }else{
+                return obj;
+            }
+        }
+        let child = myNew(person);
+        console.log(child.name);
+        console.log(child.__proto__ === person.prototype);
+    </script>
+</body>
+</html>

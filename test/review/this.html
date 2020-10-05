@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>this</title>
+</head>
+<body>
+    <button id="btn">按钮</button>
+    <script>
+        // 函数内部的this，函数调用时确定其指向，谁调用指向谁
+        function xx() {
+            console.log(this);
+        }
+        xx(); //window
+
+        var obj1 = {
+            a: 'panda',
+            c: function(){
+                console.log(this);
+            }
+        }
+        obj1.c(); // c函数被obj1对象调用 ， this指向 obj1对象
+
+        var obj2 = {
+            a: 'pandamr',
+            c: function(){
+                function d() {
+                    console.log(this);
+                }
+                d();
+            }
+        }
+        obj2.c(); // this指向 window，d函数在对象属性内部执行，没有被对象调用所以还是指向window
+
+        var obj3 = {
+            s: function () {
+                console.log(this);
+            }
+        }
+        var f = obj3.s;
+        f(); // this指向window，函数是对象，对象是引用赋值，f指向的是s后的函数的引用 ，调用后this指向window
+
+        function fun1() {
+            this.x = 'panda';
+            console.log(this);
+        }
+        new fun1(); // new 运算符指向新new出来的这个对象
+
+        // dom节点添加事件，其this指向dom本身
+        btn.onclick = function () {
+            console.log(this);
+        }
+
+        
+
+    </script>
+</body>
+</html>

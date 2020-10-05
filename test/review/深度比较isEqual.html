@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>深度比较 isEqual</title>
+</head>
+<body>
+    <script>
+        // 深度比较 两个对象全相等
+        /**
+         * 思路：
+         * 1、判断传入的值是否为对象，不是则直接进行只类型比较。注意typeof null 也为对象
+         * 2、判断传入的两个参数是否为同一个对象 
+         * 3、参数都为对象则不相同，则进行获取对象的key，长度是否一致
+         * 4、最后递归判断每个对象的key对应的值是否相同。（递归是因为有多层对象嵌套）
+         */
+        function isEqual(obj1, obj2) {
+            if(!isObject(obj1) || !isObject(obj2)){
+                // 如果不是对象 ，直接判断 值类型 是否相等即可
+                return obj1 === obj2
+            }
+            if(obj1 === obj2 ){
+                return true
+            }
+
+            // 两个都是对象，则深度判断
+            // 取出两个obj的key进行比较 ，先比较key的数量是否相等
+            let keys1 = Object.keys(obj1)
+            let keys2 = Object.keys(obj2)
+            if(keys1.length !== keys2.length){
+                return false
+            }
+            // 长度一直则判断，key对应的value值是否相等 
+            for (const key in obj1) {
+                // 会深层嵌套对象， 递归 判断值是否相等，
+                let res = isEqual(obj1[key], obj2[key])
+                if(!res){
+                    return false 
+                }
+            }
+            return true
+            
+        }
+        function isObject(obj) {
+            return typeof obj === 'object' && obj !== null
+        }
+        let obj1 = {
+            a: 100,
+            b: {
+                x: 100,
+                y: 200
+            }
+        }
+        let obj2 = {
+            a: 100,
+            b: {
+                x: 100,
+                y: 200
+            }
+        }
+        console.log(isEqual(obj1, obj2))
+    </script>
+</body>
+</html>

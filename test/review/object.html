@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>object</title>
+</head>
+<body> 
+    <script>
+        // 创建对象的三种方式
+        // 1. 字面量对象，直接用{}
+        var o1 = {name: 'panda1'};
+        var o2 =new Object({name: 'panda2'});
+
+        // 2. 构造函数创建对象
+        var F = function(name){
+            this.name = name;
+        }
+        var o3 = new F('panda3');
+
+        // 3. Object.create() 创建对象
+        var p = {name: 'panda4'};
+        var o4 = Object.create(p);
+
+
+        // 构造函数和原型对象关系
+        F.prototype.constructor === F // true
+
+        // 实例和构造函数之间的关系
+        o3.__proto__ === F.prototype // true 
+
+        // instanceof 原理
+        // 实例对象__proto__ 的属性  是否和  构造函数函数的 原型对象prototype 或原型对象的原型链上的原型 是同一个类型
+        o3.__proto__ === F.prototype  // true 
+
+        // new 运算符原理
+        // 创建新对象，连接到构造函数的原型
+        // 绑定this
+        // 返回对象
+        var new2 = function (fun){
+            var obj = Object.create(fun.prototype);
+            var re = fun.call(obj);
+            if(typeof re === 'object'){
+                return re;
+            }else{
+                return obj;
+            }
+        }
+
+        // 类的声明
+        function Animal(name) {
+            this.name = name;
+        }
+
+        class Animal2{
+            constructor(name){
+                this.name = name;
+            }
+        }
+        // 实例化
+        console.log(new Animal('cat'));
+        console.log(new Animal2('dog'));
+
+        // 类的继承
+        /**
+         * 1. 使用构造函数实现继承
+         * 通过子类中调用父类  改变父类的上下文 实现继承
+         * 缺点： 无法继承父类的原型对象上的属性和方法
+         *       只能继承父类构造函数中的方法和属性
+         */ 
+        function Parent1() {
+            this.name = 'parent1'
+        }
+        Parent1.prototype.say = function(){
+            console.log('hello');
+        }
+        function Child1() {
+            this.type = 'child1';
+            Parent1.call(this);
+        }
+        let chi_1 = new Child1();
+        let par_1 = new Parent1();
+        console.log(chi_1);
+        console.log(par_1.say());
+
+        /**
+         * 2. 原型链继承 
+         * 通过子类的原型对象 继承到 父类的实例 实现继承
+         * 缺点：原型对象上的属性和方法 会被所有实例共享
+         * 一个实例改变数据，其他实例也会跟着改变
+         */ 
+        function Parent2() {
+            this.name = 'parent2';
+            this.play = [1,2,3];
+        }
+        function Child2() {
+            this.type = 'child2';
+        }
+        Child2.prototype = new Parent2();
+
+        let chi_2_1 = new Child2();
+        let chi_2_2 = new Child2();
+        chi_2_1.play.push(4);
+        console.log(chi_2_1.play);
+        console.log(chi_2_2.play);
+        
+        /**
+         * 3. 组合继承
+         * 使用构造函数 和 原型链继承 两种方式实现继承，
+         * 解决构造函数不能继承父类原型链上的属性和方法，也解决了原型链继承中的原型对象数据共享的问题
+         * 缺点： 父类构造函数执行了两遍
+         * 
+         */ 
+
+        function Parent3() {
+            this.name = 'parent3';
+            this.play = [1,2,3];
+        }
+        Parent3.prototype.say = function () {
+            console.log('hello');
+        }
+        function Child3() {
+            this.type = 'child3';
+            Parent3.call(this);
+        }
+        Child3.prototype = new Parent3();
+
+        let chi_3_1 = new Child3();
+        let chi_3_2 = new Child3();
+        chi_3_1.play.push(4);
+        console.log(chi_3_1);
+        console.log(chi_3_2);
+
+        /**
+         * 组合继承优化 2 
+         * 通过子类的原型对象 指向 父类的原型 实现原型链继承，不回再次调用父类的构造函数
+         * 缺点： 子类生成的实例，constructor 指向父类的 constructor
+         */
+        function Parent4() {
+            this.name = 'parent4';
+            this.play = [1,2,3];
+        }
+        Parent3.prototype.say = function () {
+            console.log('hello');
+        }
+        function Child4() {
+            this.type = 'child4';
+            Parent4.call(this);
+        }
+        Child4.prototype = Parent4.prototype
+        let chi_4_1 = new Child4();
+        console.log(chi_4_1);
+
+        /**
+         * 组合优化3  完美方法
+         * 解决了子类生成的实例指向父类的构造函数 constructor
+         * 
+         */ 
+        function Parent5() {
+            this.name = name;
+        }
+        function Child5() {
+            this.type = 'child5';
+            Parent5.call(this);
+        }
+        // 子类的原型 指向 创建出的中间对象，中间对象的原型对象为父类的原型对象，利用原型链实现继承
+        Child5.prototype = Object.create(Parent5.prototype);
+        // 指定子类的 构造函数
+        Child5.prototype.constructor = Child5;
+
+        let chi_5_1 = new Child5();
+        console.log(chi_5_1);
+
+
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>闭包</title>
+</head>
+
+<body>
+    <script>
+        /**
+        * 闭包实现，以及优缺点 
+        * 闭包函数就是 有权访问其他函数的作用域的变量，函数中嵌套一个函数就会形成闭包
+        * 原理：js函数可以访问全局变量，函数作用域中的变量外部访问不到 。
+        */
+        let obj1 = 'o1';
+        function a() {
+            function b() {
+                var obj2 = 'o2';
+                console.log(obj1);
+            }
+            b();
+        }
+        // console.log(obj2);
+        a();
+
+
+        // javascript面试课程
+        // 闭包
+        /* 
+            函数作为返回值
+        */
+        function create() {
+            let b = 100;
+            return function () {
+                console.log(b);
+            }
+        }
+
+        let re = create();
+        let b = 200;
+        re(); // 100 函数的作用域链在定义的时候确定的，所以在定义的函数中查找，查不到则去父作用域
+
+        /* 
+         函数作为参数
+        */
+
+        function create_2(fn) {
+            let c = 200;
+            fn();
+        }
+
+        let c = 100;
+        function fn(){
+            console.log(c);
+        }
+        create_2(fn); // 100  函数的作用域（自由变量）在定义的时候已经确定，所以去函数中查找，查不到则去父作用域
+        
+        /* 
+            创建10个a标签，点击弹出对应的序号 
+        */
+        
+        for (let i = 0; i < 10; i++) {
+            let element = document.createElement('a');
+            element.innerHTML = i+'<br />';
+            element.addEventListener('click', (e)=>{
+                e.preventDefault();
+                console.log(i);
+            });
+            document.body.appendChild(element);
+        }
+    </script>
+</body>
+
+</html>

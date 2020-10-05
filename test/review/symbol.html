@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>symbol</title>
+</head>
+<body>
+    <script>
+        // es6中新增的symbol类型 
+        let s1 = Symbol();
+        console.log(s1);
+
+        // 使用symbol作为对象的属性名（key），属性名唯一，不会发生覆盖。
+        let TYPE_NAME = Symbol();
+        let TYPE_AGE = Symbol();
+        let obj = {
+            [TYPE_NAME]: 'panda'
+        }
+        obj[TYPE_AGE] = 18;
+        console.log(obj[TYPE_NAME]);
+        console.log(obj[TYPE_AGE]);
+
+        
+
+    </script>
+</body>
+</html>

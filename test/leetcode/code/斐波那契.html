@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>斐波那契</title>
+</head>
+<body>
+    <script>
+        function fib(n) {
+            // 定义一个数组，用于存放数组的值
+            let arr = [0,1];
+            for (let i = 2; i <= n; i++) {
+                // 计算数组的值，值为前两项之和。
+                arr[i] = (arr[i-1]+arr[i-2]) % (1e9+7);
+            }
+            return arr[n]
+        }
+        console.log(fib(5));
+    </script>
+</body>
+</html>
