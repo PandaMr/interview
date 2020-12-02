@@ -1,52 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>小米</title>
     <style>
-        /* 垂直水平剧中 */
-        .mi {
-            height: 600px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 1px red solid ;
-        }
+      /* 垂直水平剧中 */
+      .mi {
+        height: 600px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px red solid;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <p class="mi">mi</p>
+      <p class="mi">mi</p>
     </div>
     <script>
-        // 统计字符串 字符出现个数
-        let str = 'abanAmjuiooljsss';
-        str = str.toLocaleLowerCase();
-        let obj = {};
+      // 统计字符串 字符出现个数
+      let str = "abanAmjuiooljsss";
+      str = str.toLocaleLowerCase();
+      let obj = {};
+      for (let i = 0; i < str.length; i++) {
+        obj[str[i]] = obj[str[i]] + 1 || 1;
+      }
+      // console.log(JSON.stringify(obj) );
+      console.log(obj);
+
+      // 原型继承
+      function parent() {
+        this.name = "panda";
+        this.say = function () {
+          console.log("hi panda");
+        };
+      }
+      function child() {
+        this.type = "child";
+      }
+      // 子类的原型指向 父类的实例，继承父类的属性和方法，缺点无法继承父类原型链上的属性和方法
+      child.prototype = new parent();
+      let child1 = new child();
+      console.log(child1.name);
+      console.log(child1.say());
+
+      // 推多米诺
+      // 把L为 -1，R为 1 ， .为0， n 记录为循环的轮数
+      function dp(s) {
+        let arr = s.split("");
+        // 数组转为对应数字
+        let str = arr.map((item, index) => {
+          if (item == "L") {
+            return -1;
+          } else if (item == "R") {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
+        // 返回数组中 0 的下标
+        let index = str.map((item, index) => {
+          if (item == 0) {
+            return index;
+          }
+        });
+
+        for (let i = 0; i < index.length; i++) {
+          if (index[i] === undefined) {
+            index.splice(i, 1);
+          }
+        }
+        console.log(index);
+
+        // (1,-1)作为标志符 循环数组，推到多米诺
         for (let i = 0; i < str.length; i++) {
-            obj[str[i]] = (obj[str[i]]+1) || 1;
+          if (str[i] == -1) {
+            str[i - 1] = str[i] + str[i - 1];
+          }
+          if (str[i] == 1 && str[i + 1] != "NaN") {
+            str[i + 1] = str[i] + str[i + 1];
+          }
         }
-        // console.log(JSON.stringify(obj) );
-        console.log(obj);
 
-        // 原型继承
-        function parent(){
-            this.name = 'panda'
-            this.say = function(){
-                console.log('hi panda');
+        console.log(str);
+      }
+      dp(".L.R...LR..L..");
+
+      //
+      /**
+       * @param {string} dominoes
+       * @return {string}
+       */
+      /**
+ * @param {string} dominoes
+ * @return {string}
+ */
+var pushDominoes = function(dominoes) {
+    //.L.R...LR..L..
+    // let S = [".","L",".","R",".",".",".","L","R",".",".","L",".","."];
+    // let S = ["R","R",".","L"];
+    let S = dominoes.split('');
+    // 一个一个计算
+    let Z = [];
+    q:
+    for (let i = 0; i < S.length; i++) {
+        // 最终方向
+        let direction = '';
+        // 等于.的情况需要循环，并且需要向左向右循环计算
+        if (S[i] == ".") {
+            // 距离右边向左边被推的个数
+            let RLn = 0;
+            // 距离右边向右边被推的个数            
+            let RRn = 0;
+            // 向右循环
+            w:
+            for (let j = i; j < S.length; j++) {
+                if (S[j] == "L") {
+                    RLn = j - i;
+                    break w;
+                } else if (S[j] == "R") {
+                    RRn = j - i
+                    break w;
+                }
+                
             }
-        }
-        function child(){
-            this.type = 'child'
-        }
-        // 子类的原型指向 父类的实例，继承父类的属性和方法，缺点无法继承父类原型链上的属性和方法
-        child.prototype = new parent();
-        let child1 = new child();
-        console.log(child1.name);
-        console.log(child1.say());
+            // 距离左边向左边被推的个数
+            let LLn = 0;
+            // 距离左边向右边被推的个数            
+            let LRn = 0;
+            // 向左循环
+            e:
+            for (let j = i-1; j >= 0; j--) {
+                if (S[j] == "L") {
+                    LLn = i-j;
+                    break e;
+                } else if (S[j] == "R") {
+                    LRn = i-j;
+                    break e;
+                }
+
+            }
+
+            // 最终计算间隔判断
+            // 边界限制
+            if (LRn == 0 && RLn == 0) {
+                direction = S[i]; // 也就是.
+            } else if (LRn == 0) {
+                direction = 'L';
+            } else if (RLn == 0) {
+                direction = 'R';
+            } else
+
+            // 右边向左推的小于左边向右推的，那么该多米诺向左
+            if (RLn < LRn) {
+                direction = "L";
+            } else if (RLn > LRn) {
+                // 否则向右
+                direction = "R";
+            } else if (RLn == LRn) {
+                direction = ".";
+            } else {
+                direction = S[i];
+            }
 
 
+        } else {
+            // 一定可以直接确定方向  不可能被左右方向
+            direction = S[i];
+        }
+        Z.push(direction);
+    }
+    console.log(Z.join(""));
+    return Z.join("")
+};
+      pushDominoes(".L.R...LR..L..");
     </script>
-</body>
+  </body>
 </html>

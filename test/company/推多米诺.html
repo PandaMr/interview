@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>推多米诺</title>
+</head>
+<body>
+    <script>
+        // TODO
+        // 每次判断一个一个元素判断 
+        // 循环判断数组的元素是否为 . ，如果是 则继续循环，
+        // 向左向右都要循环计算 要推倒的距离，距离越近推力越大
+        // 右边向左推到的个数
+        // 左边向右推到的个数
+        // 判断 如果右边向左 大于 左边向右 的间距 则当前值为 L，否则为 R
+        
+        var dp = function (str){
+            // 字符串转为数组
+            let S = str.split("");
+            let len = S.length;
+
+            // 一个一个计算 存入数组
+            let Z = [];
+
+            // 存储方向
+            q: for (let i = 0; i < S.length; i++) {
+                let direction = "";
+                // 判断是否为 . , 如果是则 向左和向右遍历
+                if(S[i] == "."){
+                    
+                    // 距离右边向左 被推的个数
+                    let RLn = 0;
+                    let RRn = 0;
+                    w: for(let j = i; j < S.length; j++){
+                        if(S[j] == "L"){
+                            RLn = j - i; 
+                            break w;
+                        }else if(S[j] == "R"){
+                            RRn = j-i;
+                            break w;
+                        }
+                    }
+                    
+                    // 距离左边向右 被推到的个数
+                    let LRn = 0;
+                    let LLn = 0;
+
+                    e: for(let j = i-1; j >= 0; j--) {
+                        if(S[j] == 'L'){
+                            LLn = i - j;
+                            break e;
+                        }else if(S[j] == 'R'){
+                            LRn = i-j;
+                            break e;
+                        }
+                    }
+
+                    // 边界限制
+                    if(RLn == 0 && LRn == 0){
+                        direction = S[i];  // .
+                    }else if(RLn == 0){
+                        direction = 'R';
+                    }else if(LRn == 0){
+                        direction = 'L';
+                    }
+
+                    // 按照近距离优先 
+                    // 如果距离 右边往左（RLn） 推的个数 大于 距离 左边往右（LRn） 推的个数则为 R，否则为L，相等为. 
+                    else if(RLn > LRn) {
+                        direction = "R";
+                    }else if(RLn < LRn) {
+                        direction = "L"
+                    }else if(RLn == LRn) {
+                        direction = "."
+                    }else {
+                        direction = S[i]
+                    }
+
+                } else {
+                    // 如果不是. 则可以确定方向
+                    direction = S[i]
+                }
+                // 将确定的方向 插入结果数组中 
+                Z.push(direction);
+            }
+            console.log(Z.join(""));
+            return Z.join("");
+        }
+        dp(".L.R...LR..L..")
+    </script>
+</body>
+</html>

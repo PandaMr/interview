@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 将字符串转为数组 循环判断是否为 .
+      // 如是为. 则左右循环计算间隔个数
+      // 每次确定一个方向
+
+      var dp = function (s) {
+        // 字符串转为数组
+        let arr = s.split("");
+        let len = arr.length;
+        // 一个一个判断，存入结果数组
+        let result = [];
+        q: for (let i = 0; i < arr.length; i++) {
+          // 确定方向
+          let direction = "";
+          if (arr[i] == ".") {
+            // 右边向左 被推的个数
+            let RLn = 0;
+            let RRn = 0;
+            w: for (let j = i; j < arr.length; j++) {
+              if (arr[j] == "L") {
+                RLn = j - i;
+                break w;
+              } else if (arr[j] == "R") {
+                RRn = j - i;
+                break w;
+              }
+            }
+
+            // 左边向右 被推的个数
+            let LRn = 0;
+            let LLn = 0;
+            e: for(let j = i-1; j >= 0; j--){
+              if(arr[j] == 'L'){
+                LLn = i-j;
+                break e;
+              }else if(arr[j] == 'R'){
+                LRn = i-j;
+                break e;
+              }
+            }
+            
+
+            // 边界判断
+            if (RLn == 0 && LRn == 0) {
+              direction = arr[i]; // .
+            } else if (RLn == 0) {
+              direction = "R";
+            } else if (LRn == 0) {
+              direction = "L";
+            }
+
+            // 如果右边向左推的个数 大于 左边向➡右推的个数则为 R， 都则为L，相等为 .
+            else if (RLn > LRn) {
+              direction = "R";
+            } else if (RLn < LRn) {
+              direction = "L";
+            } else if (RLn == LRn) {
+              direction = ".";
+            } else {
+              direction = arr[i];
+            }
+          } else {
+            direction = arr[i];
+          }
+          result.push(direction);
+        }
+        console.log(result.join(""));
+        return result.join("");
+      };
+      dp(".L.R...LR..L..");
+    </script>
+  </body>
+</html>
