@@ -13,7 +13,7 @@
          * 判断是数组还是对象
          * for in循环对象的属性key，
          *   判断是否是该对象的属性
-         *     递归调用深拷贝
+         *    递归调用深拷贝
          */
         function deepClone(obj) {
             // 传入的参数 如果不是引用类型，或是null，直接返回。
@@ -38,7 +38,7 @@
             // 返回结果
             return result
         }
-        
+
         let obj1 = {
             name: 'panda',
             say:{
