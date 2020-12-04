@@ -8,6 +8,7 @@
 <body>
     <script>
         // 两个数组进行去重并合并（一句代码写出）
+        // new Set() 存储一个key不重复的数组，里面的key值不允许重复
         function merge(arr1, arr2) {
             return [...new Set(arr1)].concat([...new Set(arr2)])
         }
