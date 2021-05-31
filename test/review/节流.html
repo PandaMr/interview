@@ -28,7 +28,7 @@
         //         timer = null
         //     }, 300);
         // })
-        
+        // 特定的时间内只执行一次， 再次触发事件则会return掉，继续执行当前事件的倒计时
         function throttle(fn, delay) {
             let timer = null
             return function () {
@@ -36,7 +36,7 @@
                     return 
                 }
                 timer = setTimeout(() => {
-                    // 绑定this对象， 和传入的参数
+                    // 绑定当前函数的作用域中的 this对象， 和传入的参数
                     fn.apply(this, arguments)
                     timer = null
                 }, delay)

@@ -56,6 +56,33 @@
         console.log(obj1);
         console.log(obj2);
         console.log(obj3);
+
+
+        // 深拷贝
+        // 思路：递归判断每次传入的对象
+        // 如果不是object类型则直接返回该对象
+        // 如果是对象类型 则判断该对象是不是该原型中的属性，如果是则递归，否则返回
+        function deep(obj){
+            if(typeof obj !== 'object' || typeof obj === null) {
+                return obj
+            }
+            // 判断对象类型是数组还是对象
+            let result
+            if(obj instanceof Array) {
+                result = []
+            } else {
+                result = {}
+            }
+            // 循环拷贝
+            for(let key in obj) {
+                if(obj.hasOwnProperty(key)) {
+                    result[key] = deep(obj[key])
+                }
+            }
+            return result
+        }
+
+        
     </script>
 </body>
 </html>

@@ -24,16 +24,23 @@
         // })
 
         // 使用闭包封装防抖函数  
+        // 触发事件后 在 n 秒只执行一次，如果在n秒又触发了该事件则重新计算时间
         function debounce(fn, delay) {
-            let timer = null;
+            let timer = null; // 定时器
             // 
             return function () {
+                // 如若再次触发事件，则清除之前的时间，重新计算
                 if(timer){
+                    // 清除上一次的定时器
                     clearTimeout(timer);
                 }
+                // 开启倒计时定时器
                 timer = setTimeout(() => {
                     // fn();
+                    // this为当前函数的作用域
+                    // 通过apply传递当前的函数 this 和 参数
                     fn.apply(this, arguments);
+                    // 执行函数后 清空定时器
                     timer = null;
                 }, delay);
             }

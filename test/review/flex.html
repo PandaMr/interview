@@ -8,7 +8,6 @@
         .container{
             width: 100%;
             display: flex;
-            
         }
         .left, .right{
             width: 300px;
@@ -22,6 +21,32 @@
             height: 600px;
             border: 1px blue solid;
         }
+        /* 
+            设置氟元素为 display: flex;
+            justify-content: center； 主轴对齐方式
+            align-items: center; 交叉轴对齐方式
+            flex：1； 子元素占据的空间
+         */
+        .flex-box {
+            margin-top: 20px;
+            border: 1px red solid;
+            height: 300px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .item {
+            width: 100px;
+            height: 30px;
+            border: 1px pink solid;
+            flex: 1;
+        }
+        .item-2 {
+            width: 100px;
+            height: 30px;
+            border: 1px pink solid;
+            flex: 2;
+        }
     </style>
 </head>
 <body>
@@ -32,7 +57,11 @@
         </div>
         <div class="right">right</div>
     </div>
-
+    <div class="flex-box">
+        <div class="item">1</div>
+        <div class="item-2">2</div>
+        <div class="item">3</div>
+    </div>
     <script>
         // 深度优先遍历dom树  采用递归
         function BFS(node, nodeList) {
@@ -55,8 +84,7 @@
 
 
         // 广度优先搜索算法 递归 
-        
-
+       
     </script>
 </body>
 </html>

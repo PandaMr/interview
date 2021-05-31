@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-    <SlotData > 
-      <p slot="title">{{title}}</p>
+    <Count />
+    <SlotData>
+      <p slot="title">{{ title }}</p>
       <a slot="title2" href="#">panda Mr</a>
       <!-- <template v-slot:default='child'>
         {{child.userData.first}}
@@ -17,24 +18,26 @@
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
-import Base from './components/base.vue'
-import NextTick from './components/nextTick'
-import SlotData from './components/slot'
+import Base from "./components/base.vue";
+import NextTick from "./components/nextTick";
+import SlotData from "./components/slot";
+import Count from "./components/count";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     // HelloWorld
     Base,
     NextTick,
-    SlotData
+    SlotData,
+    Count,
   },
-  data(){
+  data() {
     return {
-      title: 'parent title'
-    }
-  }
-}
+      title: "parent title",
+    };
+  },
+};
 </script>
 
 <style>

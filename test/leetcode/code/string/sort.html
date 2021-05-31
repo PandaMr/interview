@@ -55,7 +55,9 @@
           return 0;
         }
         let max = 0;
+        // 数组排序
         arr.sort((a, b) => a - b);
+        // 
         for (let i = 0; i < arr.length - 1; i++) {
           let tem = arr[i + 1] - arr[i];
           if (max < tem) {

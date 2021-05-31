@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>grid布局</title>
+  <style>
+    body {
+      width: 100%;
+    }
+    .grid-container {
+      width: 600px;
+      height: 600px;
+      padding: 10px;
+      border: 3px paleturquoise solid;
+      display: grid;
+      /* 列布局， 三列自适应布局 */
+      grid-template-columns: 1fr 2fr 1fr; 
+      /* 列间距 */
+      /* column-gap: 12px; */
+      /* 行间距 */
+      /* row-gap: 12px; */
+      /* 行列统一设置 */
+      gap: 24px;
+
+      /* 对齐方式 ， 水平方向的行轴 和 垂直方向的列轴 */
+      /* 垂直方向 列轴对齐 */
+      align-items: center;
+      /* 水平方向 行轴对齐 */
+      /* justify-items: center; */
+      /* 元素整体对齐方向 */
+      /* align-content: end;
+      justify-content: end; */
+    }
+    .column1 {
+      border: 1px pink solid;
+      text-align: center;
+    }
+    .box {
+      display: grid;
+      /* 排列元素 网页整体布局 */
+      grid-template-areas: 
+      "header header header"
+      "sidebar content content"
+      "footer footer footer";
+    }
+    /* 各个元素指定对应的区域 */
+    header {
+      grid-area: header;
+      border: 1px pink solid;
+      height: 200px;
+    }
+    aside {
+      grid-area: sidebar;
+      border: 1px pink solid;
+      height: 500px;
+    }
+    main {
+      grid-area: content;
+      border: 1px pink solid;
+      height: 500px;
+    }
+    footer {
+      grid-area: footer;
+      border: 1px pink solid;
+      height: 200px;
+    }
+  </style>
+</head>
+<body>
+  <!-- 
+    1、二维布局方式，可以同时控制行和列的布局
+    2、行轨道和列轨道布局
+    3、display: grid; 开启grid布局
+    4、grid-template-columns: 1fr 1fr 1fr; 列布局，三列自适应布局
+    5、
+  -->
+  <div class="grid-container">
+    <div class="column1">column1</div>
+    <div class="column1">column1</div>
+    <div class="column1">column1</div>
+    <div class="column1">column1</div>
+    <div class="column1">column1</div>
+    <div class="column1">column1</div>
+  </div>
+
+  <div class="box">
+    <header>头部</header>
+    <aside>侧边栏</aside>
+    <main>内容</main>
+    <footer>底部</footer>
+  </div>
+</body>
+</html>

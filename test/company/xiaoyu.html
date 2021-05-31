@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //     笔试题1
+      const arr = ['a','b','a','a','b','c']
+
+      function findMax(arr){
+        let re = []
+        let obj = {}
+        arr.map((item, index) => {
+          // 判断对象是否有该元素，没有的话就赋值为1，否则累加
+          if(!obj[item]) {
+            obj[item] = 1
+          } else {
+            obj[item] +=1
+          }
+        })
+
+        // 取出对象的所有的key值
+        let keys = Object.keys(obj)
+        // 将key 与 值 拼接成对象，放入数组
+        keys.map((item, index) => {
+          re.push(`{${item}: ${obj[item]}}`)
+        })
+        return re
+      }
+
+      const res = findMax(arr)
+      console.log(res);
+      // res 返回如下
+      // [{a:3},{b:2},{c:1}]
+    </script>
+  </body>
+</html>
