@@ -1,20 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>数组去重</title>
-</head>
-<body>
+  </head>
+  <body>
     <script>
-        // 两个数组进行去重并合并（一句代码写出）
-        // new Set() 存储一个key不重复的数组，里面的key值不允许重复
-        function merge(arr1, arr2) {
-            return [...new Set(arr1)].concat([...new Set(arr2)])
-        }
-        console.log(merge([1,1,2,2], [3,3,4,4]));
-        
-
+      // 两个数组进行去重并合并（一句代码写出）
+      // new Set() 存储一个key不重复的数组，里面的key值不允许重复
+      function merge(arr1, arr2) {
+        return [...new Set(arr1)].concat([...new Set(arr2)]);
+      }
+      console.log(merge([1, 1, 2, 2], [3, 3, 4, 4]));
     </script>
-</body>
+  </body>
 </html>
