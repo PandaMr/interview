@@ -1,5 +1,8 @@
 <template>
   <div class="container">
+    <!-- <input type="text"  /> -->
+    <p>{{ data.a }}</p>
+    <input type="text" v-model="data.a" />
     <h3>{{ $store.state.count }}</h3>
     <button @click="$store.commit('add')">+</button>
     <button @click="$store.commit('reduce')">-</button>
@@ -9,7 +12,11 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      data: {
+        a: "pandaMr",
+      },
+    };
   },
 };
 </script>
