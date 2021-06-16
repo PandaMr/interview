@@ -15,6 +15,7 @@ export default {
     return {
       data: {
         a: "pandaMr",
+        b: "hello",
       },
     };
   },
