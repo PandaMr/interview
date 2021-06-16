@@ -8,16 +8,27 @@
   </head>
   <body>
     <script>
-      let a = {
+      var a = {
         n: 1,
       };
-      let b = a;
+      var b = a;
 
       a.x = a = {
         n: 2,
       };
       console.log(a.x);
       console.log(b);
+
+      // 继承的常用四种方法
+      // 1. 原型继承，缺点： 共享了父类的引用属性
+      var Person = {
+        friends: ["hello", "panda"],
+      };
+      var p1 = Object.create(Person);
+      p1.friends.push("wang");
+      var p2 = Object.create(Person);
+      p2.friends.push("li");
+      console.log(Person.friends);
     </script>
   </body>
 </html>

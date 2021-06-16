@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>this对象</title>
+  </head>
+  <body>
+    <script>
+      // this 对象
+      // 1. 对象调用，this指向该对象，谁调用指向谁
+      var obj = {
+        name: "panda",
+        print: function () {
+          console.log(this);
+          console.log(this.name);
+        },
+      };
+      obj.print();
+
+      // 2. 直接调用函数，this指向全局对象window
+      function print() {
+        console.log(this);
+      }
+      print();
+
+      // 3. 通过new的方式，this永远绑定到new出来的新对象上
+      function Person(name, age) {
+        this.name = name;
+        this.age = age;
+        console.log(this);
+      }
+      var panda = new Person("pandamr", 22);
+
+      // 4. 箭头函数的this， 本身没有this对象，继承函数声明的上下文中的this
+      var obj1 = {
+        a: () => {
+          console.log(this);
+        },
+      };
+      obj1.a(); // 继承函数声明所在的上下文，window
+
+      // 5. 如何改变this的指向 call apply bind
+      var obj2 = {
+        name: "panda",
+        age: 21,
+      };
+      function person2() {
+        console.log(this);
+        console.log(arguments);
+      }
+
+      // call 改变this指向，传入参数，立即执行函数
+      person2.call(obj2, 1, 2, 3);
+      // apply 改变this指向，传入的参数是数组，立即执行函数
+      person2.apply(obj, [4, 5, 6]);
+      // bind 改变this指向，参数，返回一个待执行的函数
+      var fn = person2.bind(obj2, 7, 8, 9);
+      fn();
+
+      // 模拟new 函数生成对象过程
+      /**
+       * 1. 生成新对象
+       * 2. 链接到原型
+       * 3. 绑定this
+       * 3. 返回新对象
+       */
+      function create(Con, ...arg) {
+        let obj = {};
+        obj.__proto__ = Con.prototype;
+        let result = Con.apply(obj, arg);
+        return result instanceof Object ? result : obj;
+      }
+
+      function Test(name, age) {
+        this.name = name;
+        this.age = age;
+      }
+      Test.prototype.say = function () {
+        console.log(this.name);
+      };
+
+      var a = create(Test, "panda", "20");
+      console.log(a);
+      console.log(a.age);
+    </script>
+  </body>
+</html>
