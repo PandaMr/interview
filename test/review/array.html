@@ -7,7 +7,7 @@
 </head>
 <body>
     <script>
-        let arr = [1,2,4]
+        let arr = [1,2,4,5,6]
 
         // concat
         let arr1 = arr.concat([4,5,6])
@@ -25,13 +25,21 @@
         let arr4 = arr.slice(1,2);
         console.log(arr,arr4);
 
-        // reduce
+        // reduce 累加器
         let arr5 = arr.reduce(function(pre, cur, index, arr){
             console.log(pre);
             console.log(cur);
             return pre + cur
         })
-        console.log(arr5);
+        console.log('total',arr5);
+        // 最大值
+        let max = arr.reduce((t, v) => {
+            console.log('t:',t);
+            console.log('v:',v);
+            return t > v ? t : v
+        })
+        console.log('max',max);
+        
     </script>
 </body>
 </html>
