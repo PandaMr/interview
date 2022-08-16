@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css 滚动贴合</title>
+    <style>
+        /**
+         1、需要把滚动条设置到父元素上 scroll-snap-type 属性才能生效，默认在body上。
+         2、父元素设置贴合方向、类型（强制贴合）
+         3、子元素设置贴合对齐方式（start、center、end）
+         */
+        main {
+            /* 设置贴合方向、类型（强制贴合 / 距离足够近贴合） */
+            /* scroll-snap-type: y proximity; */
+            scroll-snap-type: y mandatory;
+
+            /* 需要把滚动条设置到父元素上 scroll-snap-type 属性才能生效 */
+            overflow: scroll;
+            /* width: 100vw; */
+            height: 100vh;
+            /* display: flex; */
+        }
+        section {
+            /* 设置贴合对齐方式 */
+            scroll-snap-align: start;
+
+            width: 100vw;
+            height: 100vh;
+            font-size: 36px;
+            display: flex;
+            /* flex-shrink: 0;  横向滚动需设置 为不收缩，默认大小 */
+            align-items: center;
+            justify-content:center;
+        }
+        .section1 {
+            background-color:pink;
+        }
+        .section2 {
+            background-color:orange;
+        }
+        .section3 {
+            background-color: gray;
+        }
+        .section4 {
+            background-color: yellowgreen;
+        }
+        
+    </style>
+</head>
+<body>
+    <main>
+        <section class="section1">内容1</section>
+        <section class="section2">内容2</section>
+        <section class="section3">内容3</section>
+        <section class="section4">内容4</section>
+    </main>
+    <script>
+        // ?.  链式操作: obj?.name  
+        // obj 对象存在则获取name属性，否则返回undefined
+        let obj = {
+            a : {
+                name: 'bai'
+            },
+            b : true,
+        }
+        console.log(obj.a?.name);
+        if(obj.a?.b) {
+            console.log('true');
+        } else {
+            console.log('false');
+        }
+        // 链式操作数组
+        let person = {
+            list: []
+        }
+        person?.list.map((item) => {
+            console.log(item);
+        })
+            
+        // 去除小数
+        let num = 3.14;
+        console.log('去除小数', num >> 0);
+        console.log('去除小数', num | 0);
+        console.log('去除小数', ~~num);
+        
+        function temp(){
+            // 值交换
+            let a = 5
+            let b = 6
+            // [bai, guo] = [guo, bai]
+            // console.log('值交换', bai, guo);
+            a=a+b
+            b=a-b
+            a=a-b
+            console.log('值交换', a, b);
+        }
+        temp()
+        
+
+        
+    </script>
+</body>
+</html>
